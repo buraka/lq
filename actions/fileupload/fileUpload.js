@@ -1,7 +1,7 @@
 /**
  * Created by brk on 06.07.2014.
  */
-var db = require('../../lib/dbLogin')(),
+var db = require('../../lib/login/dbLogin')(),
     fileUploadInfo = require('../../models/baseResponse'),
     log = require('./../../log/logger'),
     errInfo = require('../../models/error'),
@@ -17,10 +17,9 @@ exports.upload = function (req, res) {
         }
         log.logWarn('renamed complete -> '  + req.files.myFile.path);
     });
-    res.jsonp(fileUploadInfo.BASE_RESPONSE_INFO({
-        msg :{
-            filePath: req.files.myFile.path,
-            fileName: req.files.myFile.name
-        }
-    }));
-}
+    res.jsonp(fileUploadInfo.BASE_RESPONSE_INFO(
+            {
+                filePath: req.files.myFile.path,
+                fileName: req.files.myFile.name
+            })
+    )};

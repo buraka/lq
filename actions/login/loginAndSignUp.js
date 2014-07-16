@@ -1,7 +1,7 @@
 /**
  * Created by burak.alparslan on 7/1/14.
  */
-var db = require('../../lib/dbLogin')(),
+var db = require('../../lib/login/dbLogin'),
     loginInfo = require('../../models/login/loginInfo'),
     errInfo = require('../../models/error');
 
@@ -24,13 +24,15 @@ exports.signup = function (req, res) {
     var email = req.body.user,
         password = req.body.password,
         confrimPass = req.body.password,
+        msg = req.body.msg,
+        blocked = req.body.blocked,
         username = req.body.username;
 
     res.locals.session = req.session;
     if (password !== confrimPass) {
         res.jsonp({message: [{desc: "Passwords do not match", type: "error"}]});
     } else {
-        db.createUser(email, password, username, function (doErr, response) {
+        db.createUser(email, password, username, msg, blocked, function (doErr, response) {
             if (doErr){
                 res.jsonp({
                     'msg': doErr.message
