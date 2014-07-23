@@ -22,4 +22,5 @@ exports.upload = function (req, res) {
                 filePath: req.files.myFile.path,
                 fileName: req.files.myFile.name
             })
-    )};
+    )
+};

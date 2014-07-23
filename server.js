@@ -8,6 +8,7 @@ var express = require('express'),
     store = new express.session.MemoryStore,
     log = require("./log/logger"),
     busboy = require('connect-busboy'),
+    baseDB = require("./lib/baseDB"),
     fs = require('fs');
 
 var app = express();
@@ -20,7 +21,8 @@ try {
     log.logError("File config.json not found or is invalid: " + e.message);
     process.exit(1);
 }
-login.init(config);
+/*login.init(config);*/
+baseDB.configure(config.mongo);
 
 
 app.use(express.bodyParser({

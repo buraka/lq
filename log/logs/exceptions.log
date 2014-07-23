@@ -76,3 +76,669 @@
 2014-07-06T20:08:30.452Z - error: uncaughtException: ENOENT, rename '/home/brk/workspaces/LQ/files/29274-17bgmwa.exe' date=Sun Jul 06 2014 23:08:30 GMT+0300 (EEST), pid=29274, uid=1001, gid=1001, cwd=/home/brk/workspaces/LQ, execPath=/usr/bin/nodejs, version=v0.10.29, argv=[/usr/bin/node, /home/brk/workspaces/LQ/server.js], rss=72454144, heapTotal=62303488, heapUsed=29004776, loadavg=[0.81494140625, 0.51953125, 0.67919921875], uptime=182333.490185618, trace=[], stack=[Error: ENOENT, rename '/home/brk/workspaces/LQ/files/29274-17bgmwa.exe']
 2014-07-06T20:11:48.286Z - error: uncaughtException: ENOENT, rename '/home/brk/workspaces/LQ/files/29274-hiik7i.exe' date=Sun Jul 06 2014 23:11:48 GMT+0300 (EEST), pid=29274, uid=1001, gid=1001, cwd=/home/brk/workspaces/LQ, execPath=/usr/bin/nodejs, version=v0.10.29, argv=[/usr/bin/node, /home/brk/workspaces/LQ/server.js], rss=72994816, heapTotal=62303488, heapUsed=30188576, loadavg=[1.09814453125, 0.72021484375, 0.7197265625], uptime=182531.324110254, trace=[], stack=[Error: ENOENT, rename '/home/brk/workspaces/LQ/files/29274-hiik7i.exe']
 2014-07-06T20:12:51.429Z - error: uncaughtException: ENOENT, rename '/home/brk/workspaces/LQ/files/29274-42n2yc.exe' date=Sun Jul 06 2014 23:12:51 GMT+0300 (EEST), pid=29274, uid=1001, gid=1001, cwd=/home/brk/workspaces/LQ, execPath=/usr/bin/nodejs, version=v0.10.29, argv=[/usr/bin/node, /home/brk/workspaces/LQ/server.js], rss=74076160, heapTotal=62303488, heapUsed=36034848, loadavg=[0.650390625, 0.65185546875, 0.6943359375], uptime=182594.467560916, trace=[], stack=[Error: ENOENT, rename '/home/brk/workspaces/LQ/files/29274-42n2yc.exe']
+2014-07-17T11:08:16.020Z - error: uncaughtException: Object function (config) {
+
+    var USER_COLLECTION = 'user',
+        salt = 'supersecretkey',
+        db;
+
+    function encryptPassword(password) {
+        return crypto.createHmac('sha1', salt).update(password).digest('hex');
+    }
+
+    return {
+        sconfigure: function (config) {
+            db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');
+            log.logWarn('DB Connection  successfully done.');
+        },
+        createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            UserModel.count({emailId: reqEmailId }, function (err, c) {
+                if(c > 0){
+                    console.log("Count is " + c);
+                    callback(new Error(reqEmailId + " already exists"));
+
+                } else {
+                    var user = new UserModel({
+                        emailId: reqEmailId,
+                        password: encryptPassword(reqPassword),
+                        userName: reqUserName,
+                        msg: reqMsg,
+                        blocked: reqBlocked
+                    });
+                    user.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                            callback(new Error(err));
+                        } else {
+                            callback(null, {msg:"User created"});
+                        }
+                    });
+                }
+            });
+        },
+        authenticateUser: function (reqEmailId, reqPassword, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {
+               if (err) {
+                   console.log("error authenticating user: " + err);
+                   callback(new Error(err));
+               } else if(user) {
+                   callback(null, user);
+               } else {
+                   console.log("emailid/password did not match");
+                   callback(new Error("emailid/password did not match"));
+               }
+            });
+        }
+
+    };
+
+} has no method 'configure' date=Thu Jul 17 2014 14:08:16 GMT+0300 (EEST), pid=11506, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=70578176, heapTotal=60239616, heapUsed=26248368, loadavg=[0.80712890625, 0.34326171875, 0.265625], uptime=10746.98938696, trace=[column=8, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js, function=Object.exports.init, line=9, method=exports.init, native=false, column=7, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js, function=, line=23, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=10, file=module.js, function=Module.runMain [as _onTimeout], line=497, method=runMain [as _onTimeout], native=false, column=15, file=timers.js, function=Timer.listOnTimeout [as ontimeout], line=110, method=listOnTimeout [as ontimeout], native=false], stack=[TypeError: Object function (config) {, ,     var USER_COLLECTION = 'user',,         salt = 'supersecretkey',,         db;, ,     function encryptPassword(password) {,         return crypto.createHmac('sha1', salt).update(password).digest('hex');,     }, ,     return {,         sconfigure: function (config) {,             db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');,             log.logWarn('DB Connection  successfully done.');,         },,         createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             UserModel.count({emailId: reqEmailId }, function (err, c) {,                 if(c > 0){,                     console.log("Count is " + c);,                     callback(new Error(reqEmailId + " already exists"));, ,                 } else {,                     var user = new UserModel({,                         emailId: reqEmailId,,                         password: encryptPassword(reqPassword),,                         userName: reqUserName,,                         msg: reqMsg,,                         blocked: reqBlocked,                     });,                     user.save(function (err) {,                         if (err) {,                             console.log(err);,                             callback(new Error(err));,                         } else {,                             callback(null, {msg:"User created"});,                         },                     });,                 },             });,         },,         authenticateUser: function (reqEmailId, reqPassword, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {,                if (err) {,                    console.log("error authenticating user: " + err);,                    callback(new Error(err));,                } else if(user) {,                    callback(null, user);,                } else {,                    console.log("emailid/password did not match");,                    callback(new Error("emailid/password did not match"));,                },             });,         }, ,     };, , } has no method 'configure',     at Object.exports.init (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js:9:8),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js:23:7),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Module.runMain [as _onTimeout] (module.js:497:10),     at Timer.listOnTimeout [as ontimeout] (timers.js:110:15)]
+2014-07-17T11:09:40.136Z - error: uncaughtException: Object function (config) {
+
+    var USER_COLLECTION = 'user',
+        salt = 'supersecretkey',
+        db;
+
+    function encryptPassword(password) {
+        return crypto.createHmac('sha1', salt).update(password).digest('hex');
+    }
+
+    return {
+        sconfigure: function (config) {
+            db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');
+            log.logWarn('DB Connection  successfully done.');
+        },
+        createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            UserModel.count({emailId: reqEmailId }, function (err, c) {
+                if(c > 0){
+                    console.log("Count is " + c);
+                    callback(new Error(reqEmailId + " already exists"));
+
+                } else {
+                    var user = new UserModel({
+                        emailId: reqEmailId,
+                        password: encryptPassword(reqPassword),
+                        userName: reqUserName,
+                        msg: reqMsg,
+                        blocked: reqBlocked
+                    });
+                    user.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                            callback(new Error(err));
+                        } else {
+                            callback(null, {msg:"User created"});
+                        }
+                    });
+                }
+            });
+        },
+        authenticateUser: function (reqEmailId, reqPassword, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {
+               if (err) {
+                   console.log("error authenticating user: " + err);
+                   callback(new Error(err));
+               } else if(user) {
+                   callback(null, user);
+               } else {
+                   console.log("emailid/password did not match");
+                   callback(new Error("emailid/password did not match"));
+               }
+            });
+        }
+
+    };
+
+} has no method 'configure' date=Thu Jul 17 2014 14:09:40 GMT+0300 (EEST), pid=11604, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=41431040, heapTotal=32183296, heapUsed=20215072, loadavg=[0.4384765625, 0.33251953125, 0.267578125], uptime=10831.102541966, trace=[column=8, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js, function=Object.exports.init, line=9, method=exports.init, native=false, column=7, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js, function=, line=23, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=10, file=module.js, function=Function.Module.runMain, line=497, method=Module.runMain, native=false, column=16, file=node.js, function=startup, line=119, method=null, native=false, column=3, file=node.js, function=null, line=906, method=null, native=false], stack=[TypeError: Object function (config) {, ,     var USER_COLLECTION = 'user',,         salt = 'supersecretkey',,         db;, ,     function encryptPassword(password) {,         return crypto.createHmac('sha1', salt).update(password).digest('hex');,     }, ,     return {,         sconfigure: function (config) {,             db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');,             log.logWarn('DB Connection  successfully done.');,         },,         createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             UserModel.count({emailId: reqEmailId }, function (err, c) {,                 if(c > 0){,                     console.log("Count is " + c);,                     callback(new Error(reqEmailId + " already exists"));, ,                 } else {,                     var user = new UserModel({,                         emailId: reqEmailId,,                         password: encryptPassword(reqPassword),,                         userName: reqUserName,,                         msg: reqMsg,,                         blocked: reqBlocked,                     });,                     user.save(function (err) {,                         if (err) {,                             console.log(err);,                             callback(new Error(err));,                         } else {,                             callback(null, {msg:"User created"});,                         },                     });,                 },             });,         },,         authenticateUser: function (reqEmailId, reqPassword, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {,                if (err) {,                    console.log("error authenticating user: " + err);,                    callback(new Error(err));,                } else if(user) {,                    callback(null, user);,                } else {,                    console.log("emailid/password did not match");,                    callback(new Error("emailid/password did not match"));,                },             });,         }, ,     };, , } has no method 'configure',     at Object.exports.init (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js:9:8),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js:23:7),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Function.Module.runMain (module.js:497:10),     at startup (node.js:119:16),     at node.js:906:3]
+2014-07-17T11:10:47.770Z - error: uncaughtException: Object function (config) {
+
+    var USER_COLLECTION = 'user',
+        salt = 'supersecretkey',
+        db;
+
+    function encryptPassword(password) {
+        return crypto.createHmac('sha1', salt).update(password).digest('hex');
+    }
+
+    return {
+        createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            UserModel.count({emailId: reqEmailId }, function (err, c) {
+                if(c > 0){
+                    console.log("Count is " + c);
+                    callback(new Error(reqEmailId + " already exists"));
+
+                } else {
+                    var user = new UserModel({
+                        emailId: reqEmailId,
+                        password: encryptPassword(reqPassword),
+                        userName: reqUserName,
+                        msg: reqMsg,
+                        blocked: reqBlocked
+                    });
+                    user.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                            callback(new Error(err));
+                        } else {
+                            callback(null, {msg:"User created"});
+                        }
+                    });
+                }
+            });
+        },
+        authenticateUser: function (reqEmailId, reqPassword, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {
+               if (err) {
+                   console.log("error authenticating user: " + err);
+                   callback(new Error(err));
+               } else if(user) {
+                   callback(null, user);
+               } else {
+                   console.log("emailid/password did not match");
+                   callback(new Error("emailid/password did not match"));
+               }
+            });
+        }
+
+    };
+
+} has no method 'configure' date=Thu Jul 17 2014 14:10:47 GMT+0300 (EEST), pid=11635, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=43765760, heapTotal=32183296, heapUsed=20408624, loadavg=[0.39453125, 0.34228515625, 0.275390625], uptime=10898.73659992, trace=[column=8, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js, function=Object.exports.init, line=9, method=exports.init, native=false, column=7, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js, function=, line=23, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=10, file=module.js, function=Function.Module.runMain, line=497, method=Module.runMain, native=false, column=16, file=node.js, function=startup, line=119, method=null, native=false, column=3, file=node.js, function=null, line=906, method=null, native=false], stack=[TypeError: Object function (config) {, ,     var USER_COLLECTION = 'user',,         salt = 'supersecretkey',,         db;, ,     function encryptPassword(password) {,         return crypto.createHmac('sha1', salt).update(password).digest('hex');,     }, ,     return {,         createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             UserModel.count({emailId: reqEmailId }, function (err, c) {,                 if(c > 0){,                     console.log("Count is " + c);,                     callback(new Error(reqEmailId + " already exists"));, ,                 } else {,                     var user = new UserModel({,                         emailId: reqEmailId,,                         password: encryptPassword(reqPassword),,                         userName: reqUserName,,                         msg: reqMsg,,                         blocked: reqBlocked,                     });,                     user.save(function (err) {,                         if (err) {,                             console.log(err);,                             callback(new Error(err));,                         } else {,                             callback(null, {msg:"User created"});,                         },                     });,                 },             });,         },,         authenticateUser: function (reqEmailId, reqPassword, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {,                if (err) {,                    console.log("error authenticating user: " + err);,                    callback(new Error(err));,                } else if(user) {,                    callback(null, user);,                } else {,                    console.log("emailid/password did not match");,                    callback(new Error("emailid/password did not match"));,                },             });,         }, ,     };, , } has no method 'configure',     at Object.exports.init (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js:9:8),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js:23:7),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Function.Module.runMain (module.js:497:10),     at startup (node.js:119:16),     at node.js:906:3]
+2014-07-17T11:10:59.086Z - error: uncaughtException: Object function (config) {
+
+    var USER_COLLECTION = 'user',
+        salt = 'supersecretkey',
+        db;
+
+    function encryptPassword(password) {
+        return crypto.createHmac('sha1', salt).update(password).digest('hex');
+    }
+
+    return {
+        configure: function (config) {
+            db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');
+            log.logWarn('DB Connection  successfully done.');
+        },
+        createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            UserModel.count({emailId: reqEmailId }, function (err, c) {
+                if(c > 0){
+                    console.log("Count is " + c);
+                    callback(new Error(reqEmailId + " already exists"));
+
+                } else {
+                    var user = new UserModel({
+                        emailId: reqEmailId,
+                        password: encryptPassword(reqPassword),
+                        userName: reqUserName,
+                        msg: reqMsg,
+                        blocked: reqBlocked
+                    });
+                    user.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                            callback(new Error(err));
+                        } else {
+                            callback(null, {msg:"User created"});
+                        }
+                    });
+                }
+            });
+        },
+        authenticateUser: function (reqEmailId, reqPassword, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {
+               if (err) {
+                   console.log("error authenticating user: " + err);
+                   callback(new Error(err));
+               } else if(user) {
+                   callback(null, user);
+               } else {
+                   console.log("emailid/password did not match");
+                   callback(new Error("emailid/password did not match"));
+               }
+            });
+        }
+
+    };
+
+} has no method 'configure' date=Thu Jul 17 2014 14:10:59 GMT+0300 (EEST), pid=11650, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=43499520, heapTotal=32183296, heapUsed=20219160, loadavg=[0.4482421875, 0.35791015625, 0.28173828125], uptime=10910.051971118, trace=[column=8, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js, function=Object.exports.init, line=9, method=exports.init, native=false, column=7, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js, function=, line=23, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=10, file=module.js, function=Function.Module.runMain, line=497, method=Module.runMain, native=false, column=16, file=node.js, function=startup, line=119, method=null, native=false, column=3, file=node.js, function=null, line=906, method=null, native=false], stack=[TypeError: Object function (config) {, ,     var USER_COLLECTION = 'user',,         salt = 'supersecretkey',,         db;, ,     function encryptPassword(password) {,         return crypto.createHmac('sha1', salt).update(password).digest('hex');,     }, ,     return {,         configure: function (config) {,             db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');,             log.logWarn('DB Connection  successfully done.');,         },,         createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             UserModel.count({emailId: reqEmailId }, function (err, c) {,                 if(c > 0){,                     console.log("Count is " + c);,                     callback(new Error(reqEmailId + " already exists"));, ,                 } else {,                     var user = new UserModel({,                         emailId: reqEmailId,,                         password: encryptPassword(reqPassword),,                         userName: reqUserName,,                         msg: reqMsg,,                         blocked: reqBlocked,                     });,                     user.save(function (err) {,                         if (err) {,                             console.log(err);,                             callback(new Error(err));,                         } else {,                             callback(null, {msg:"User created"});,                         },                     });,                 },             });,         },,         authenticateUser: function (reqEmailId, reqPassword, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {,                if (err) {,                    console.log("error authenticating user: " + err);,                    callback(new Error(err));,                } else if(user) {,                    callback(null, user);,                } else {,                    console.log("emailid/password did not match");,                    callback(new Error("emailid/password did not match"));,                },             });,         }, ,     };, , } has no method 'configure',     at Object.exports.init (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js:9:8),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js:23:7),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Function.Module.runMain (module.js:497:10),     at startup (node.js:119:16),     at node.js:906:3]
+2014-07-17T11:11:10.247Z - error: uncaughtException: Object function (config) {
+
+    var USER_COLLECTION = 'user',
+        salt = 'supersecretkey',
+        db;
+
+    function encryptPassword(password) {
+        return crypto.createHmac('sha1', salt).update(password).digest('hex');
+    }
+
+    return {
+        configure: function (config) {
+            db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');
+            log.logWarn('DB Connection  successfully done.');
+        },
+        createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            UserModel.count({emailId: reqEmailId }, function (err, c) {
+                if(c > 0){
+                    console.log("Count is " + c);
+                    callback(new Error(reqEmailId + " already exists"));
+
+                } else {
+                    var user = new UserModel({
+                        emailId: reqEmailId,
+                        password: encryptPassword(reqPassword),
+                        userName: reqUserName,
+                        msg: reqMsg,
+                        blocked: reqBlocked
+                    });
+                    user.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                            callback(new Error(err));
+                        } else {
+                            callback(null, {msg:"User created"});
+                        }
+                    });
+                }
+            });
+        },
+        authenticateUser: function (reqEmailId, reqPassword, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {
+               if (err) {
+                   console.log("error authenticating user: " + err);
+                   callback(new Error(err));
+               } else if(user) {
+                   callback(null, user);
+               } else {
+                   console.log("emailid/password did not match");
+                   callback(new Error("emailid/password did not match"));
+               }
+            });
+        }
+
+    };
+
+} has no method 'configure' date=Thu Jul 17 2014 14:11:10 GMT+0300 (EEST), pid=11663, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=60243968, heapTotal=49980416, heapUsed=15501744, loadavg=[0.53271484375, 0.37890625, 0.28955078125], uptime=10921.211996124, trace=[column=8, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js, function=Object.exports.init, line=9, method=exports.init, native=false, column=7, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js, function=, line=23, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=10, file=module.js, function=Function.Module.runMain, line=497, method=Module.runMain, native=false, column=16, file=node.js, function=startup, line=119, method=null, native=false, column=3, file=node.js, function=null, line=906, method=null, native=false], stack=[TypeError: Object function (config) {, ,     var USER_COLLECTION = 'user',,         salt = 'supersecretkey',,         db;, ,     function encryptPassword(password) {,         return crypto.createHmac('sha1', salt).update(password).digest('hex');,     }, ,     return {,         configure: function (config) {,             db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');,             log.logWarn('DB Connection  successfully done.');,         },,         createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             UserModel.count({emailId: reqEmailId }, function (err, c) {,                 if(c > 0){,                     console.log("Count is " + c);,                     callback(new Error(reqEmailId + " already exists"));, ,                 } else {,                     var user = new UserModel({,                         emailId: reqEmailId,,                         password: encryptPassword(reqPassword),,                         userName: reqUserName,,                         msg: reqMsg,,                         blocked: reqBlocked,                     });,                     user.save(function (err) {,                         if (err) {,                             console.log(err);,                             callback(new Error(err));,                         } else {,                             callback(null, {msg:"User created"});,                         },                     });,                 },             });,         },,         authenticateUser: function (reqEmailId, reqPassword, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {,                if (err) {,                    console.log("error authenticating user: " + err);,                    callback(new Error(err));,                } else if(user) {,                    callback(null, user);,                } else {,                    console.log("emailid/password did not match");,                    callback(new Error("emailid/password did not match"));,                },             });,         }, ,     };, , } has no method 'configure',     at Object.exports.init (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js:9:8),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js:23:7),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Function.Module.runMain (module.js:497:10),     at startup (node.js:119:16),     at node.js:906:3]
+2014-07-17T11:11:48.211Z - error: uncaughtException: Object function () {
+
+    var USER_COLLECTION = 'user',
+        salt = 'supersecretkey',
+        db;
+
+    function encryptPassword(password) {
+        return crypto.createHmac('sha1', salt).update(password).digest('hex');
+    }
+
+    return {
+        configure: function (config) {
+            db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');
+            log.logWarn('DB Connection  successfully done.');
+        },
+        createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            UserModel.count({emailId: reqEmailId }, function (err, c) {
+                if(c > 0){
+                    console.log("Count is " + c);
+                    callback(new Error(reqEmailId + " already exists"));
+
+                } else {
+                    var user = new UserModel({
+                        emailId: reqEmailId,
+                        password: encryptPassword(reqPassword),
+                        userName: reqUserName,
+                        msg: reqMsg,
+                        blocked: reqBlocked
+                    });
+                    user.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                            callback(new Error(err));
+                        } else {
+                            callback(null, {msg:"User created"});
+                        }
+                    });
+                }
+            });
+        },
+        authenticateUser: function (reqEmailId, reqPassword, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {
+               if (err) {
+                   console.log("error authenticating user: " + err);
+                   callback(new Error(err));
+               } else if(user) {
+                   callback(null, user);
+               } else {
+                   console.log("emailid/password did not match");
+                   callback(new Error("emailid/password did not match"));
+               }
+            });
+        }
+
+    };
+
+} has no method 'configure' date=Thu Jul 17 2014 14:11:48 GMT+0300 (EEST), pid=11682, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=70668288, heapTotal=60239616, heapUsed=33720920, loadavg=[0.46533203125, 0.37841796875, 0.2939453125], uptime=10959.180507243, trace=[column=8, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js, function=Object.exports.init, line=9, method=exports.init, native=false, column=7, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js, function=, line=23, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=10, file=module.js, function=Module.runMain [as _onTimeout], line=497, method=runMain [as _onTimeout], native=false, column=15, file=timers.js, function=Timer.listOnTimeout [as ontimeout], line=110, method=listOnTimeout [as ontimeout], native=false], stack=[TypeError: Object function () {, ,     var USER_COLLECTION = 'user',,         salt = 'supersecretkey',,         db;, ,     function encryptPassword(password) {,         return crypto.createHmac('sha1', salt).update(password).digest('hex');,     }, ,     return {,         configure: function (config) {,             db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');,             log.logWarn('DB Connection  successfully done.');,         },,         createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             UserModel.count({emailId: reqEmailId }, function (err, c) {,                 if(c > 0){,                     console.log("Count is " + c);,                     callback(new Error(reqEmailId + " already exists"));, ,                 } else {,                     var user = new UserModel({,                         emailId: reqEmailId,,                         password: encryptPassword(reqPassword),,                         userName: reqUserName,,                         msg: reqMsg,,                         blocked: reqBlocked,                     });,                     user.save(function (err) {,                         if (err) {,                             console.log(err);,                             callback(new Error(err));,                         } else {,                             callback(null, {msg:"User created"});,                         },                     });,                 },             });,         },,         authenticateUser: function (reqEmailId, reqPassword, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {,                if (err) {,                    console.log("error authenticating user: " + err);,                    callback(new Error(err));,                } else if(user) {,                    callback(null, user);,                } else {,                    console.log("emailid/password did not match");,                    callback(new Error("emailid/password did not match"));,                },             });,         }, ,     };, , } has no method 'configure',     at Object.exports.init (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js:9:8),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js:23:7),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Module.runMain [as _onTimeout] (module.js:497:10),     at Timer.listOnTimeout [as ontimeout] (timers.js:110:15)]
+2014-07-17T11:11:58.788Z - error: uncaughtException: Object function () {
+
+    var USER_COLLECTION = 'user',
+        salt = 'supersecretkey',
+        db;
+
+    function encryptPassword(password) {
+        return crypto.createHmac('sha1', salt).update(password).digest('hex');
+    }
+
+    return {
+        configure: function (config) {
+            db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');
+            log.logWarn('DB Connection  successfully done.');
+        },
+        createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            UserModel.count({emailId: reqEmailId }, function (err, c) {
+                if(c > 0){
+                    console.log("Count is " + c);
+                    callback(new Error(reqEmailId + " already exists"));
+
+                } else {
+                    var user = new UserModel({
+                        emailId: reqEmailId,
+                        password: encryptPassword(reqPassword),
+                        userName: reqUserName,
+                        msg: reqMsg,
+                        blocked: reqBlocked
+                    });
+                    user.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                            callback(new Error(err));
+                        } else {
+                            callback(null, {msg:"User created"});
+                        }
+                    });
+                }
+            });
+        },
+        authenticateUser: function (reqEmailId, reqPassword, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {
+               if (err) {
+                   console.log("error authenticating user: " + err);
+                   callback(new Error(err));
+               } else if(user) {
+                   callback(null, user);
+               } else {
+                   console.log("emailid/password did not match");
+                   callback(new Error("emailid/password did not match"));
+               }
+            });
+        }
+
+    };
+
+} has no method 'configure' date=Thu Jul 17 2014 14:11:58 GMT+0300 (EEST), pid=11699, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=41443328, heapTotal=32183296, heapUsed=20224472, loadavg=[0.39404296875, 0.36572265625, 0.291015625], uptime=10969.754211286, trace=[column=8, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js, function=Object.exports.init, line=9, method=exports.init, native=false, column=7, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js, function=, line=23, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=10, file=module.js, function=Function.Module.runMain, line=497, method=Module.runMain, native=false, column=16, file=node.js, function=startup, line=119, method=null, native=false, column=3, file=node.js, function=null, line=906, method=null, native=false], stack=[TypeError: Object function () {, ,     var USER_COLLECTION = 'user',,         salt = 'supersecretkey',,         db;, ,     function encryptPassword(password) {,         return crypto.createHmac('sha1', salt).update(password).digest('hex');,     }, ,     return {,         configure: function (config) {,             db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');,             log.logWarn('DB Connection  successfully done.');,         },,         createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             UserModel.count({emailId: reqEmailId }, function (err, c) {,                 if(c > 0){,                     console.log("Count is " + c);,                     callback(new Error(reqEmailId + " already exists"));, ,                 } else {,                     var user = new UserModel({,                         emailId: reqEmailId,,                         password: encryptPassword(reqPassword),,                         userName: reqUserName,,                         msg: reqMsg,,                         blocked: reqBlocked,                     });,                     user.save(function (err) {,                         if (err) {,                             console.log(err);,                             callback(new Error(err));,                         } else {,                             callback(null, {msg:"User created"});,                         },                     });,                 },             });,         },,         authenticateUser: function (reqEmailId, reqPassword, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {,                if (err) {,                    console.log("error authenticating user: " + err);,                    callback(new Error(err));,                } else if(user) {,                    callback(null, user);,                } else {,                    console.log("emailid/password did not match");,                    callback(new Error("emailid/password did not match"));,                },             });,         }, ,     };, , } has no method 'configure',     at Object.exports.init (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js:9:8),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js:23:7),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Function.Module.runMain (module.js:497:10),     at startup (node.js:119:16),     at node.js:906:3]
+2014-07-17T11:13:05.956Z - error: uncaughtException: Object function () {
+
+    var USER_COLLECTION = 'user',
+        salt = 'supersecretkey',
+        db;
+
+    function encryptPassword(password) {
+        return crypto.createHmac('sha1', salt).update(password).digest('hex');
+    }
+
+    return {
+        configure: function (config) {
+            db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');
+            log.logWarn('DB Connection  successfully done.');
+        },
+        createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            UserModel.count({emailId: reqEmailId }, function (err, c) {
+                if(c > 0){
+                    console.log("Count is " + c);
+                    callback(new Error(reqEmailId + " already exists"));
+
+                } else {
+                    var user = new UserModel({
+                        emailId: reqEmailId,
+                        password: encryptPassword(reqPassword),
+                        userName: reqUserName,
+                        msg: reqMsg,
+                        blocked: reqBlocked
+                    });
+                    user.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                            callback(new Error(err));
+                        } else {
+                            callback(null, {msg:"User created"});
+                        }
+                    });
+                }
+            });
+        },
+        authenticateUser: function (reqEmailId, reqPassword, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {
+               if (err) {
+                   console.log("error authenticating user: " + err);
+                   callback(new Error(err));
+               } else if(user) {
+                   callback(null, user);
+               } else {
+                   console.log("emailid/password did not match");
+                   callback(new Error("emailid/password did not match"));
+               }
+            });
+        }
+
+    };
+
+} has no method 'configure' date=Thu Jul 17 2014 14:13:05 GMT+0300 (EEST), pid=11761, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=73494528, heapTotal=62315520, heapUsed=25738752, loadavg=[0.40234375, 0.3583984375, 0.29345703125], uptime=11036.923014308, trace=[column=8, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js, function=Object.exports.init, line=9, method=exports.init, native=false, column=7, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js, function=, line=23, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=10, file=module.js, function=Module.runMain [as _onTimeout], line=497, method=runMain [as _onTimeout], native=false, column=15, file=timers.js, function=Timer.listOnTimeout [as ontimeout], line=110, method=listOnTimeout [as ontimeout], native=false], stack=[TypeError: Object function () {, ,     var USER_COLLECTION = 'user',,         salt = 'supersecretkey',,         db;, ,     function encryptPassword(password) {,         return crypto.createHmac('sha1', salt).update(password).digest('hex');,     }, ,     return {,         configure: function (config) {,             db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');,             log.logWarn('DB Connection  successfully done.');,         },,         createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             UserModel.count({emailId: reqEmailId }, function (err, c) {,                 if(c > 0){,                     console.log("Count is " + c);,                     callback(new Error(reqEmailId + " already exists"));, ,                 } else {,                     var user = new UserModel({,                         emailId: reqEmailId,,                         password: encryptPassword(reqPassword),,                         userName: reqUserName,,                         msg: reqMsg,,                         blocked: reqBlocked,                     });,                     user.save(function (err) {,                         if (err) {,                             console.log(err);,                             callback(new Error(err));,                         } else {,                             callback(null, {msg:"User created"});,                         },                     });,                 },             });,         },,         authenticateUser: function (reqEmailId, reqPassword, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {,                if (err) {,                    console.log("error authenticating user: " + err);,                    callback(new Error(err));,                } else if(user) {,                    callback(null, user);,                } else {,                    console.log("emailid/password did not match");,                    callback(new Error("emailid/password did not match"));,                },             });,         }, ,     };, , } has no method 'configure',     at Object.exports.init (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js:9:8),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js:23:7),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Module.runMain [as _onTimeout] (module.js:497:10),     at Timer.listOnTimeout [as ontimeout] (timers.js:110:15)]
+2014-07-17T11:13:53.956Z - error: uncaughtException: Object function () {
+
+    var USER_COLLECTION = 'user',
+        salt = 'supersecretkey',
+        db;
+
+    function encryptPassword(password) {
+        return crypto.createHmac('sha1', salt).update(password).digest('hex');
+    }
+
+    return {
+        configure: function (config) {
+            db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');
+            log.logWarn('DB Connection  successfully done.');
+        },
+        createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            UserModel.count({emailId: reqEmailId }, function (err, c) {
+                if(c > 0){
+                    console.log("Count is " + c);
+                    callback(new Error(reqEmailId + " already exists"));
+
+                } else {
+                    var user = new UserModel({
+                        emailId: reqEmailId,
+                        password: encryptPassword(reqPassword),
+                        userName: reqUserName,
+                        msg: reqMsg,
+                        blocked: reqBlocked
+                    });
+                    user.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                            callback(new Error(err));
+                        } else {
+                            callback(null, {msg:"User created"});
+                        }
+                    });
+                }
+            });
+        },
+        authenticateUser: function (reqEmailId, reqPassword, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {
+               if (err) {
+                   console.log("error authenticating user: " + err);
+                   callback(new Error(err));
+               } else if(user) {
+                   callback(null, user);
+               } else {
+                   console.log("emailid/password did not match");
+                   callback(new Error("emailid/password did not match"));
+               }
+            });
+        }
+
+    };
+
+} has no method 'configure' date=Thu Jul 17 2014 14:13:53 GMT+0300 (EEST), pid=11786, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=75984896, heapTotal=65399296, heapUsed=41131232, loadavg=[0.41796875, 0.3662109375, 0.30029296875], uptime=11084.923419491, trace=[column=8, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js, function=Object.exports.init, line=9, method=exports.init, native=false, column=7, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js, function=, line=23, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=10, file=module.js, function=Module.runMain [as _onTimeout], line=497, method=runMain [as _onTimeout], native=false, column=15, file=timers.js, function=Timer.listOnTimeout [as ontimeout], line=110, method=listOnTimeout [as ontimeout], native=false], stack=[TypeError: Object function () {, ,     var USER_COLLECTION = 'user',,         salt = 'supersecretkey',,         db;, ,     function encryptPassword(password) {,         return crypto.createHmac('sha1', salt).update(password).digest('hex');,     }, ,     return {,         configure: function (config) {,             db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');,             log.logWarn('DB Connection  successfully done.');,         },,         createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             UserModel.count({emailId: reqEmailId }, function (err, c) {,                 if(c > 0){,                     console.log("Count is " + c);,                     callback(new Error(reqEmailId + " already exists"));, ,                 } else {,                     var user = new UserModel({,                         emailId: reqEmailId,,                         password: encryptPassword(reqPassword),,                         userName: reqUserName,,                         msg: reqMsg,,                         blocked: reqBlocked,                     });,                     user.save(function (err) {,                         if (err) {,                             console.log(err);,                             callback(new Error(err));,                         } else {,                             callback(null, {msg:"User created"});,                         },                     });,                 },             });,         },,         authenticateUser: function (reqEmailId, reqPassword, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {,                if (err) {,                    console.log("error authenticating user: " + err);,                    callback(new Error(err));,                } else if(user) {,                    callback(null, user);,                } else {,                    console.log("emailid/password did not match");,                    callback(new Error("emailid/password did not match"));,                },             });,         }, ,     };, , } has no method 'configure',     at Object.exports.init (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js:9:8),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js:23:7),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Module.runMain [as _onTimeout] (module.js:497:10),     at Timer.listOnTimeout [as ontimeout] (timers.js:110:15)]
+2014-07-17T11:14:24.392Z - error: uncaughtException: Object function () {
+
+    var USER_COLLECTION = 'user',
+        salt = 'supersecretkey',
+        db;
+
+    function encryptPassword(password) {
+        return crypto.createHmac('sha1', salt).update(password).digest('hex');
+    }
+
+    return {
+        configure: function (config) {
+            db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');
+            log.logWarn('DB Connection  successfully done.');
+        },
+        createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            UserModel.count({emailId: reqEmailId }, function (err, c) {
+                if(c > 0){
+                    console.log("Count is " + c);
+                    callback(new Error(reqEmailId + " already exists"));
+
+                } else {
+                    var user = new UserModel({
+                        emailId: reqEmailId,
+                        password: encryptPassword(reqPassword),
+                        userName: reqUserName,
+                        msg: reqMsg,
+                        blocked: reqBlocked
+                    });
+                    user.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                            callback(new Error(err));
+                        } else {
+                            callback(null, {msg:"User created"});
+                        }
+                    });
+                }
+            });
+        },
+        authenticateUser: function (reqEmailId, reqPassword, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {
+               if (err) {
+                   console.log("error authenticating user: " + err);
+                   callback(new Error(err));
+               } else if(user) {
+                   callback(null, user);
+               } else {
+                   console.log("emailid/password did not match");
+                   callback(new Error("emailid/password did not match"));
+               }
+            });
+        }
+
+    };
+
+} has no method 'configure' date=Thu Jul 17 2014 14:14:24 GMT+0300 (EEST), pid=11805, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=70049792, heapTotal=61283584, heapUsed=24977200, loadavg=[0.43017578125, 0.37841796875, 0.3076171875], uptime=11115.358755036, trace=[column=8, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js, function=Object.exports.init, line=9, method=exports.init, native=false, column=7, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js, function=, line=23, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=10, file=module.js, function=Module.runMain [as _onTimeout], line=497, method=runMain [as _onTimeout], native=false, column=15, file=timers.js, function=Timer.listOnTimeout [as ontimeout], line=110, method=listOnTimeout [as ontimeout], native=false], stack=[TypeError: Object function () {, ,     var USER_COLLECTION = 'user',,         salt = 'supersecretkey',,         db;, ,     function encryptPassword(password) {,         return crypto.createHmac('sha1', salt).update(password).digest('hex');,     }, ,     return {,         configure: function (config) {,             db = mongoose.connect(config ? config : 'mongodb://localhost:27017/LQ');,             log.logWarn('DB Connection  successfully done.');,         },,         createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             UserModel.count({emailId: reqEmailId }, function (err, c) {,                 if(c > 0){,                     console.log("Count is " + c);,                     callback(new Error(reqEmailId + " already exists"));, ,                 } else {,                     var user = new UserModel({,                         emailId: reqEmailId,,                         password: encryptPassword(reqPassword),,                         userName: reqUserName,,                         msg: reqMsg,,                         blocked: reqBlocked,                     });,                     user.save(function (err) {,                         if (err) {,                             console.log(err);,                             callback(new Error(err));,                         } else {,                             callback(null, {msg:"User created"});,                         },                     });,                 },             });,         },,         authenticateUser: function (reqEmailId, reqPassword, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {,                if (err) {,                    console.log("error authenticating user: " + err);,                    callback(new Error(err));,                } else if(user) {,                    callback(null, user);,                } else {,                    console.log("emailid/password did not match");,                    callback(new Error("emailid/password did not match"));,                },             });,         }, ,     };, , } has no method 'configure',     at Object.exports.init (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js:9:8),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js:23:7),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Module.runMain [as _onTimeout] (module.js:497:10),     at Timer.listOnTimeout [as ontimeout] (timers.js:110:15)]
+2014-07-17T11:14:59.800Z - error: uncaughtException: Object function () {
+
+    var USER_COLLECTION = 'user',
+        salt = 'supersecretkey',
+        db;
+
+    function encryptPassword(password) {
+        return crypto.createHmac('sha1', salt).update(password).digest('hex');
+    }
+
+    return {
+        createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            UserModel.count({emailId: reqEmailId }, function (err, c) {
+                if(c > 0){
+                    console.log("Count is " + c);
+                    callback(new Error(reqEmailId + " already exists"));
+
+                } else {
+                    var user = new UserModel({
+                        emailId: reqEmailId,
+                        password: encryptPassword(reqPassword),
+                        userName: reqUserName,
+                        msg: reqMsg,
+                        blocked: reqBlocked
+                    });
+                    user.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                            callback(new Error(err));
+                        } else {
+                            callback(null, {msg:"User created"});
+                        }
+                    });
+                }
+            });
+        },
+        authenticateUser: function (reqEmailId, reqPassword, callback) {
+            var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);
+
+            var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {
+               if (err) {
+                   console.log("error authenticating user: " + err);
+                   callback(new Error(err));
+               } else if(user) {
+                   callback(null, user);
+               } else {
+                   console.log("emailid/password did not match");
+                   callback(new Error("emailid/password did not match"));
+               }
+            });
+        }
+
+    };
+
+} has no method 'configure' date=Thu Jul 17 2014 14:14:59 GMT+0300 (EEST), pid=11827, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=74616832, heapTotal=65399296, heapUsed=40367280, loadavg=[0.3935546875, 0.36962890625, 0.30810546875], uptime=11150.766970106, trace=[column=8, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js, function=Object.exports.init, line=9, method=exports.init, native=false, column=7, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js, function=, line=23, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=10, file=module.js, function=Module.runMain [as _onTimeout], line=497, method=runMain [as _onTimeout], native=false, column=15, file=timers.js, function=Timer.listOnTimeout [as ontimeout], line=110, method=listOnTimeout [as ontimeout], native=false], stack=[TypeError: Object function () {, ,     var USER_COLLECTION = 'user',,         salt = 'supersecretkey',,         db;, ,     function encryptPassword(password) {,         return crypto.createHmac('sha1', salt).update(password).digest('hex');,     }, ,     return {,         createUser: function (reqEmailId, reqPassword, reqUserName, reqMsg, reqBlocked, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             UserModel.count({emailId: reqEmailId }, function (err, c) {,                 if(c > 0){,                     console.log("Count is " + c);,                     callback(new Error(reqEmailId + " already exists"));, ,                 } else {,                     var user = new UserModel({,                         emailId: reqEmailId,,                         password: encryptPassword(reqPassword),,                         userName: reqUserName,,                         msg: reqMsg,,                         blocked: reqBlocked,                     });,                     user.save(function (err) {,                         if (err) {,                             console.log(err);,                             callback(new Error(err));,                         } else {,                             callback(null, {msg:"User created"});,                         },                     });,                 },             });,         },,         authenticateUser: function (reqEmailId, reqPassword, callback) {,             var UserModel = db.model(USER_COLLECTION, dbSchema.USER_SCHEMA);, ,             var user = UserModel.findOne({emailId : reqEmailId, password: encryptPassword(reqPassword)}, function (err, user) {,                if (err) {,                    console.log("error authenticating user: " + err);,                    callback(new Error(err));,                } else if(user) {,                    callback(null, user);,                } else {,                    console.log("emailid/password did not match");,                    callback(new Error("emailid/password did not match"));,                },             });,         }, ,     };, , } has no method 'configure',     at Object.exports.init (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/actions/login/loginAndSignUp.js:9:8),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js:23:7),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Module.runMain [as _onTimeout] (module.js:497:10),     at Timer.listOnTimeout [as ontimeout] (timers.js:110:15)]
+2014-07-17T11:16:51.037Z - error: uncaughtException: Cannot find module './../../log/logger' date=Thu Jul 17 2014 14:16:51 GMT+0300 (EEST), pid=11865, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=68546560, heapTotal=61271552, heapUsed=32487096, loadavg=[0.53173828125, 0.40283203125, 0.32763671875], uptime=11262.006464518, trace=[column=15, file=module.js, function=Function.Module._resolveFilename, line=338, method=Module._resolveFilename, native=false, column=25, file=module.js, function=Function.Module._load, line=280, method=Module._load, native=false, column=17, file=module.js, function=Module.require, line=364, method=require, native=false, column=17, file=module.js, function=require, line=380, method=null, native=false, column=11, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/lib/baseDB.js, function=, line=6, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=17, file=module.js, function=Module.require, line=364, method=require, native=false], stack=[Error: Cannot find module './../../log/logger',     at Function.Module._resolveFilename (module.js:338:15),     at Function.Module._load (module.js:280:25),     at Module.require (module.js:364:17),     at require (module.js:380:17),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/lib/baseDB.js:6:11),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Module.require (module.js:364:17)]
+2014-07-17T11:17:07.047Z - error: uncaughtException: Cannot find module './../../log/logger' date=Thu Jul 17 2014 14:17:07 GMT+0300 (EEST), pid=11887, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=70565888, heapTotal=61271552, heapUsed=31452384, loadavg=[0.57421875, 0.41650390625, 0.33251953125], uptime=11278.015757659, trace=[column=15, file=module.js, function=Function.Module._resolveFilename, line=338, method=Module._resolveFilename, native=false, column=25, file=module.js, function=Function.Module._load, line=280, method=Module._load, native=false, column=17, file=module.js, function=Module.require, line=364, method=require, native=false, column=17, file=module.js, function=require, line=380, method=null, native=false, column=11, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/lib/baseDB.js, function=, line=6, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=17, file=module.js, function=Module.require, line=364, method=require, native=false], stack=[Error: Cannot find module './../../log/logger',     at Function.Module._resolveFilename (module.js:338:15),     at Function.Module._load (module.js:280:25),     at Module.require (module.js:364:17),     at require (module.js:380:17),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/lib/baseDB.js:6:11),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Module.require (module.js:364:17)]
+2014-07-17T11:17:44.311Z - error: uncaughtException: Cannot find module './../../log/logger' date=Thu Jul 17 2014 14:17:44 GMT+0300 (EEST), pid=11908, uid=10225, gid=10000, cwd=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git, execPath=/usr/bin/nodejs, version=v0.10.28, argv=[/usr/bin/node, /home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/server.js], rss=70619136, heapTotal=61271552, heapUsed=32484184, loadavg=[0.56005859375, 0.427734375, 0.33837890625], uptime=11315.280028419, trace=[column=15, file=module.js, function=Function.Module._resolveFilename, line=338, method=Module._resolveFilename, native=false, column=25, file=module.js, function=Function.Module._load, line=280, method=Module._load, native=false, column=17, file=module.js, function=Module.require, line=364, method=require, native=false, column=17, file=module.js, function=require, line=380, method=null, native=false, column=11, file=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/lib/baseDB.js, function=, line=6, method=null, native=false, column=26, file=module.js, function=Module._compile, line=456, method=_compile, native=false, column=10, file=module.js, function=Object.Module._extensions..js, line=474, method=Module._extensions..js, native=false, column=32, file=module.js, function=Module.load, line=356, method=load, native=false, column=12, file=module.js, function=Function.Module._load, line=312, method=Module._load, native=false, column=17, file=module.js, function=Module.require, line=364, method=require, native=false], stack=[Error: Cannot find module './../../log/logger',     at Function.Module._resolveFilename (module.js:338:15),     at Function.Module._load (module.js:280:25),     at Module.require (module.js:364:17),     at require (module.js:380:17),     at Object.<anonymous> (/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/lib/baseDB.js:6:11),     at Module._compile (module.js:456:26),     at Object.Module._extensions..js (module.js:474:10),     at Module.load (module.js:356:32),     at Function.Module._load (module.js:312:12),     at Module.require (module.js:364:17)]
