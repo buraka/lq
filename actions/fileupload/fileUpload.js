@@ -1,7 +1,7 @@
 /**
  * Created by brk on 06.07.2014.
  */
-var db = require('../../lib/login/dbLogin')(),
+var db = require('../../lib/fileupload/dbFile'),
     fileUploadInfo = require('../../models/baseResponse'),
     log = require('./../../log/logger'),
     errInfo = require('../../models/error'),
@@ -16,6 +16,10 @@ exports.upload = function (req, res) {
             throw err;
         }
         log.logWarn('renamed complete -> '  + req.files.myFile.path);
+    });
+
+    db.insertFile("|asd",function(doErr, response) {
+
     });
     res.jsonp(fileUploadInfo.BASE_RESPONSE_INFO(
             {
