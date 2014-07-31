@@ -44,7 +44,7 @@ app.post('/doLogin', login.doLogin);
 app.get('/logout', login.logout);
 
 //restrict actions
-app.post('/fileupload', fileUpload.upload);
+app.post('/fileupload',login.auth , fileUpload.upload);
 
 
 

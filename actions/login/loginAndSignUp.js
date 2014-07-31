@@ -2,7 +2,7 @@
  * Created by burak.alparslan on 7/1/14.
  */
 var db = require('../../lib/login/dbLogin'),
-    loginInfo = require('../../models/login/loginInfo'),
+    loginInfo = require('../../models/baseResponse'),
     errInfo = require('../../models/error');
 
 exports.init = function (config) {
@@ -59,9 +59,9 @@ exports.doLogin = function (req, res) {
         } else {
             req.session.authenticated = true;
             req.session.email = email;
-            res.jsonp(loginInfo.LOGIN_INFO({
+            loginInfo.BASE_RESPONSE_INFO(res, {
                 msg : response.emailId
-            }));
+            });
         }
     })
 };
@@ -70,8 +70,8 @@ exports.logout = function (req, res) {
     res.locals.session = req.session;
     req.session.authenticated = false;
     req.session.email = '';
-    res.jsonp(loginInfo.LOGIN_INFO({
+    loginInfo.BASE_RESPONSE_INFO(res, {
         msg : [{desc: "You have been signed out.", type: "info"}]
-    }));
+    });
 };
 

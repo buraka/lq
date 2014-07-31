@@ -3,12 +3,12 @@
  */
 var log = require('./../log/logger');
 
-exports.BASE_RESPONSE_INFO = function (json) {
+exports.BASE_RESPONSE_INFO = function (res, json) {
     var response = {
         success: json.success ? json.success : true,
         msg: json.msg ? json.msg : ''
     };
 
     log.logWarn(response);
-    return response
+    res.jsonp(response);
 };

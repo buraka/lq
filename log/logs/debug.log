@@ -223,3 +223,53 @@
 2014-07-24T14:00:19.865Z - info:  success=false, msg=emailid/password did not match
 2014-07-24T14:00:25.624Z - info:  success=false, msg=emailid/password did not match
 2014-07-24T14:01:55.604Z - info:  success=true, msg=brk
+2014-07-25T13:53:45.776Z - info: DB Connection  successfully done.
+2014-07-25T13:53:45.909Z - info: Listening on port 3000...
+2014-07-25T13:59:42.523Z - info: DB Connection  successfully done.
+2014-07-25T13:59:42.634Z - info: Listening on port 3000...
+2014-07-25T13:59:42.680Z - info: The 'employees' collection doesn't exist. Creating it with sample data...
+2014-07-25T13:59:42.681Z - info: Populating employee database...
+2014-07-25T14:02:22.370Z - info: DB Connection  successfully done.
+2014-07-25T14:02:22.758Z - info: Listening on port 3000...
+2014-07-25T14:10:08.108Z - info: DB Connection  successfully done.
+2014-07-25T14:10:08.565Z - info: Listening on port 3000...
+2014-07-25T14:11:15.418Z - info:  success=true, msg=aliberk
+2014-07-25T14:16:15.310Z - info:  success=true, msg=
+2014-07-25T14:16:15.313Z - info: renamed complete -> /Users/brkk/Desktop/LQ/lq/files/1754-yovrs0.m4a
+2014-07-25T14:16:42.863Z - info:  success=true, msg=
+2014-07-25T14:16:42.864Z - info: renamed complete -> /Users/brkk/Desktop/LQ/lq/files/1754-1whbsjc.m4a
+2014-07-25T14:17:34.421Z - info: DB Connection  successfully done.
+2014-07-25T14:17:34.797Z - info: Listening on port 3000...
+2014-07-25T14:17:50.541Z - info:  success=true, msg=aliberk
+2014-07-25T14:18:04.210Z - info: renamed complete -> /Users/brkk/Desktop/LQ/lq/files/1828-8srvdz.m4a
+2014-07-25T14:18:32.884Z - info: renamed complete -> /Users/brkk/Desktop/LQ/lq/files/1828-rvwqqg.m4a
+2014-07-25T14:19:04.108Z - info: renamed complete -> /Users/brkk/Desktop/LQ/lq/files/1828-fzvhdx.m4a
+2014-07-25T14:19:15.794Z - info: DB Connection  successfully done.
+2014-07-25T14:19:16.098Z - info: Listening on port 3000...
+2014-07-25T14:19:22.610Z - info:  success=true, msg=aliberk
+2014-07-25T14:19:35.312Z - info: DB Connection  successfully done.
+2014-07-25T14:19:35.600Z - info: Listening on port 3000...
+2014-07-25T14:19:44.351Z - info:  success=true, msg=aliberk
+2014-07-25T14:19:52.208Z - info: renamed complete -> /Users/brkk/Desktop/LQ/lq/files/1867-188y2oy.m4a
+2014-07-25T14:20:37.504Z - info: renamed complete -> /Users/brkk/Desktop/LQ/lq/files/1867-17z1lrh.m4a
+2014-07-25T14:21:21.105Z - info: DB Connection  successfully done.
+2014-07-25T14:21:21.739Z - info: Listening on port 3000...
+2014-07-25T14:21:32.019Z - info:  success=true, msg=aliberk
+2014-07-25T14:21:51.615Z - info: renamed complete -> /Users/brkk/Desktop/LQ/lq/files/1885-1gdgo5u.m4a
+2014-07-25T14:22:44.047Z - info: DB Connection  successfully done.
+2014-07-25T14:22:44.632Z - info: Listening on port 3000...
+2014-07-25T14:22:53.361Z - info:  success=true, msg=aliberk
+2014-07-25T14:23:04.397Z - info: renamed complete -> /Users/brkk/Desktop/LQ/lq/files/1894-6ycu2g.m4a
+2014-07-25T14:23:49.166Z - info: DB Connection  successfully done.
+2014-07-25T14:23:49.758Z - info: Listening on port 3000...
+2014-07-25T14:24:05.012Z - info:  success=true, msg=aliberk
+2014-07-25T14:24:12.924Z - info: renamed complete -> /Users/brkk/Desktop/LQ/lq/files/1919-17xzrpy.m4a
+2014-07-25T14:25:16.780Z - info: renamed complete -> /Users/brkk/Desktop/LQ/lq/files/1919-1rhp3nz.m4a
+2014-07-25T14:25:54.250Z - info: renamed complete -> /Users/brkk/Desktop/LQ/lq/files/1919-19t80m3.m4a
+2014-07-27T16:03:52.311Z - info: DB Connection  successfully done.
+2014-07-27T16:03:53.043Z - info: Listening on port 3000...
+2014-07-27T16:04:54.039Z - info: DB Connection  successfully done.
+2014-07-27T16:04:55.122Z - info: Listening on port 3000...
+2014-07-27T16:06:34.685Z - info: DB Connection  successfully done.
+2014-07-27T16:06:35.492Z - info: Listening on port 3000...
+2014-07-27T16:06:37.639Z - info:  success=true, msg=aliberk

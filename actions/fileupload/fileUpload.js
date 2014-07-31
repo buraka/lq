@@ -16,15 +16,16 @@ exports.upload = function (req, res) {
             throw err;
         }
         log.logWarn('renamed complete -> '  + req.files.myFile.path);
+        db.insertFile(req.files.myFile.path,req.files.myFile.name,function(doErr, response) {
+            fileUploadInfo.BASE_RESPONSE_INFO(res,
+                    {
+                        filePath: req.files.myFile.path,
+                        fileName: req.files.myFile.name
+                    })
+
+        });
     });
 
-    db.insertFile("|asd",function(doErr, response) {
 
-    });
-    res.jsonp(fileUploadInfo.BASE_RESPONSE_INFO(
-            {
-                filePath: req.files.myFile.path,
-                fileName: req.files.myFile.name
-            })
-    )
+
 };
