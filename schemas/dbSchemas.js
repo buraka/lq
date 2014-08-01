@@ -13,19 +13,19 @@ var USER = new Schema({
     blocked: {type: Boolean}
 });
 
-var COMMENT = new Schema({
+/*var COMMENT = new Schema({
    owner: {type: Schema.ObjectId, ref: 'USER'},
    comment: {type: String, required: true}
-});
+});*/
 
 var FILE = new Schema({
    fileName: {type: String, required: true},
    filePath: {type: String, required: true},
    visibility: {type: Boolean, required: true},
    priority: {type: Number},
-   numberOfSees: {type: Number},
+   numberOfSeen: {type: Number},
    likes: [{type: Schema.ObjectId, ref: 'USER'}],
-   comments: {type: Schema.ObjectId, ref: 'COMMENT'},
+ //  comments: {type: Schema.ObjectId, ref: 'COMMENT'},
    isActive: {type: Boolean},
     owner: {type: Schema.ObjectId, ref: 'USER'}
 });
@@ -43,6 +43,6 @@ var PROFILE = new Schema({
 });
 
 exports.USER_SCHEMA = USER;
-exports.COMMENT_SCHEMA = COMMENT;
+//exports.COMMENT_SCHEMA = COMMENT;
 exports.FILE_SCHEMA = FILE;
 exports.PROFILE_SCHEMA = PROFILE;

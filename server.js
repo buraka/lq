@@ -45,6 +45,8 @@ app.get('/logout', login.logout);
 
 //restrict actions
 app.post('/fileupload',login.auth , fileUpload.upload);
+app.post('/updateUserName', login.auth, login.updateUserName);
+app.get('/getUserDetail', login.auth, login.getUserDetail);
 
 
 

@@ -2,7 +2,7 @@
  * Created by burak.alparslan on 7/1/14.
  */
 var db = require('../../lib/login/dbLogin'),
-    loginInfo = require('../../models/baseResponse'),
+    baseResponse = require('../../models/baseResponse'),
     errInfo = require('../../models/error');
 
 exports.init = function (config) {
@@ -51,16 +51,16 @@ exports.doLogin = function (req, res) {
         password = req.body.password;
 
     res.locals.session = req.session;
-    db.authenticateUser(email,password,function (doErr, response) {
+    db.authenticateUser(email,password,function (doErr, user) {
         if (doErr){
-            res.jsonp(errInfo.ERROR({
+            errInfo.ERROR(res, {
                 'msg': doErr.message
-            }));
+            });
         } else {
             req.session.authenticated = true;
-            req.session.email = email;
-            loginInfo.BASE_RESPONSE_INFO(res, {
-                msg : response.emailId
+            req.session.email = user.emailId;
+            baseResponse.BASE_RESPONSE_INFO(res, {
+                msg : user.emailId
             });
         }
     })
@@ -70,8 +70,39 @@ exports.logout = function (req, res) {
     res.locals.session = req.session;
     req.session.authenticated = false;
     req.session.email = '';
-    loginInfo.BASE_RESPONSE_INFO(res, {
+    baseResponse.BASE_RESPONSE_INFO(res, {
         msg : [{desc: "You have been signed out.", type: "info"}]
+    });
+};
+
+exports.updateUserName = function (req, res) {
+    var email = req.body.email,
+        userName = req.body.userName;
+
+    db.updateUserName(email, userName, function (err) {
+        if (err)
+            errInfo.ERROR(res, {
+                'msg': doErr.message
+            });
+        else
+            baseResponse.BASE_RESPONSE_INFO(res, {
+                msg : [{desc: "updated username", type: "info"}]
+            })
+
+    })
+};
+
+exports.getUserDetail = function (req, res) {
+    db.getUserDetail(req.session.email, function (err, user) {
+       if (err) {
+           errInfo.ERROR(res, {
+               msg: "An error occured."
+           })
+       } else {
+           baseResponse.BASE_RESPONSE_INFO(res, {
+               msg: user.id
+           })
+       }
     });
 };
 
