@@ -42,21 +42,31 @@ app.use(busboy());
 app.post('/createUser', login.signup);
 app.post('/doLogin', login.doLogin);
 app.get('/logout', login.logout);
+app.get('/test', function (req, res) {
+    log.logWarn("Its here!!!\n");
+
+    res.jsonp({
+        msg : "test"
+    });
+});
+app.post('/test', function (req, res) {
+    log.logWarn("Its here!!!\n");
+    res.header("Access-Control-Allow-Origin", "*");
+    res.jsonp({
+        msg : "test"
+    });
+});
 
 //restrict actions
 app.post('/fileupload',login.auth , fileUpload.upload);
 app.post('/updateUserName', login.auth, login.updateUserName);
 app.get('/getUserDetail', login.auth, login.getUserDetail);
 
-
-
-
+/*
 app.get('/employees/:id/reports', services.findByManager);
 app.get('/employees/:id', services.findById);
 app.get('/employees', login.auth, services.findAll);
-
-
-
+*/
 
 app.listen(3000);
 console.log('Listening on port 3000...');
