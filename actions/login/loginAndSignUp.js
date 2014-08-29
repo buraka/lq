@@ -21,13 +21,14 @@ exports.auth = function (req, res, next) {
 };
 
 exports.signup = function (req, res) {
-    var email = req.body.user,
+    var email = req.body.email,
         password = req.body.password,
         confrimPass = req.body.password,
         msg = req.body.msg,
         blocked = req.body.blocked,
         username = req.body.username;
 
+    res.header("Access-Control-Allow-Origin", "*");
     res.locals.session = req.session;
     if (password !== confrimPass) {
         res.jsonp({message: [{desc: "Passwords do not match", type: "error"}]});
@@ -47,9 +48,10 @@ exports.signup = function (req, res) {
 };
 
 exports.doLogin = function (req, res) {
-    var email = req.body.user,
+    var email = req.body.email,
         password = req.body.password;
 
+    res.header("Access-Control-Allow-Origin", "*");
     res.locals.session = req.session;
     db.authenticateUser(email,password,function (doErr, user) {
         if (doErr){

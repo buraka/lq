@@ -338,3 +338,148 @@
 2014-08-01T13:13:50.060Z - info:  success=true, filePath=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/files/858-qfuodh.png, fileName=Screenshot from 2014-06-17 17:19:54.png, _bsontype=ObjectID, id=SÑ5ã×Û}  
 2014-08-01T13:15:35.285Z - info:  success=true, filePath=/home/POZITRON/burak.alparslan/Desktop/nodeTmp/LQ-git/files/858-vqnud5.png, fileName=Screenshot from 2014-06-17 17:19:54.png, _bsontype=ObjectID, id=SÑ5ã×Û}  
 2014-08-01T13:21:41.283Z - info:  success=true, msg=rrrr
+2014-08-21T16:11:57.694Z - info: DB Connection  successfully done.
+2014-08-21T16:11:57.758Z - info: Listening on port 3000...
+2014-08-21T16:16:55.980Z - info: DB Connection  successfully done.
+2014-08-21T16:16:56.048Z - info: Listening on port 3000...
+2014-08-21T16:20:53.678Z - info: DB Connection  successfully done.
+2014-08-21T16:20:53.741Z - info: Listening on port 3000...
+2014-08-22T06:58:02.217Z - info: DB Connection  successfully done.
+2014-08-22T06:58:02.286Z - info: Listening on port 3000...
+2014-08-22T08:11:50.602Z - info: DB Connection  successfully done.
+2014-08-22T08:11:50.649Z - info: Listening on port 3000...
+2014-08-22T13:00:13.652Z - info: DB Connection  successfully done.
+2014-08-22T13:00:13.723Z - info: Listening on port 3000...
+2014-08-22T13:00:13.746Z - info: The 'employees' collection doesn't exist. Creating it with sample data...
+2014-08-22T13:00:13.746Z - info: Populating employee database...
+2014-08-22T13:03:45.456Z - info: DB Connection  successfully done.
+2014-08-22T13:03:45.732Z - info: Listening on port 3000...
+2014-08-22T13:03:52.725Z - info: DB Connection  successfully done.
+2014-08-22T13:03:52.988Z - info: Listening on port 3000...
+2014-08-22T13:04:01.571Z - info: DB Connection  successfully done.
+2014-08-22T13:04:01.826Z - info: Listening on port 3000...
+2014-08-22T13:04:12.448Z - info: DB Connection  successfully done.
+2014-08-22T13:04:12.680Z - info: Listening on port 3000...
+2014-08-22T13:05:13.820Z - info: DB Connection  successfully done.
+2014-08-22T13:05:14.046Z - info: Listening on port 3000...
+2014-08-22T13:07:50.656Z - info: DB Connection  successfully done.
+2014-08-22T13:07:50.703Z - info: Listening on port 3000...
+2014-08-22T13:11:25.523Z - info: DB Connection  successfully done.
+2014-08-22T13:11:25.754Z - info: Listening on port 3000...
+2014-08-22T13:11:39.794Z - info: Its here!!!
+
+2014-08-22T13:12:54.029Z - info: DB Connection  successfully done.
+2014-08-22T13:12:54.297Z - info: Listening on port 3000...
+2014-08-22T13:13:01.887Z - info: Its here!!!
+
+2014-08-22T13:13:23.902Z - info: Its here!!!
+
+2014-08-22T13:14:19.410Z - info: DB Connection  successfully done.
+2014-08-22T13:14:19.677Z - info: Listening on port 3000...
+2014-08-22T13:14:26.375Z - info: Its here!!!
+
+2014-08-22T13:15:58.221Z - info: Its here!!!
+
+2014-08-22T13:21:34.984Z - info: Its here!!!
+
+2014-08-22T13:22:00.632Z - info: Its here!!!
+
+2014-08-22T13:24:30.044Z - info: Its here!!!
+
+2014-08-22T13:30:49.999Z - info: Its here!!!
+
+2014-08-22T13:31:50.573Z - info: Its here!!!
+
+2014-08-22T17:29:34.686Z - info: Its here!!!
+
+2014-08-22T17:30:56.905Z - info: Its here!!!
+
+2014-08-22T17:31:37.638Z - info: Its here!!!
+
+2014-08-22T17:32:37.685Z - info: DB Connection  successfully done.
+2014-08-22T17:32:37.958Z - info: Listening on port 3000...
+2014-08-22T17:32:54.069Z - info: Its here!!!
+
+2014-08-22T17:33:11.286Z - info: Its here!!!
+
+2014-08-22T17:35:49.672Z - info: Its here!!!
+
+2014-08-27T13:29:57.491Z - info: DB Connection  successfully done.
+2014-08-27T13:29:57.765Z - info: Listening on port 3000...
+2014-08-27T14:17:33.472Z - info: DB Connection  successfully done.
+2014-08-27T14:17:33.764Z - info: Listening on port 3000...
+2014-08-28T08:26:48.049Z - info: Its here!!!
+
+2014-08-28T08:27:15.684Z - info: Its here!!!
+
+2014-08-28T08:27:36.046Z - info: Its here!!!
+
+2014-08-28T08:28:18.192Z - info: Its here!!!
+
+2014-08-28T08:30:30.806Z - info: Its here!!!
+
+2014-08-28T08:30:58.531Z - info: Its here!!!
+
+2014-08-28T08:31:19.916Z - info: Its here!!!
+
+2014-08-28T08:33:03.271Z - info: Its here!!!
+
+2014-08-28T08:36:45.844Z - info: Its here!!!
+
+2014-08-28T08:44:26.323Z - info: DB Connection  successfully done.
+2014-08-28T08:44:26.613Z - info: Listening on port 3000...
+2014-08-28T08:46:11.850Z - info: Its here!!!
+
+2014-08-28T08:47:20.464Z - info: Its here!!!
+
+2014-08-28T08:52:48.697Z - info: Its here!!!
+
+2014-08-28T09:06:51.887Z - info: Its here!!!
+
+2014-08-28T09:07:45.764Z - info: Its here!!!
+
+2014-08-28T09:08:08.706Z - info: Its here!!!
+
+2014-08-28T09:09:24.765Z - info: Its here!!!
+
+2014-08-28T09:10:31.974Z - info: DB Connection  successfully done.
+2014-08-28T09:10:32.272Z - info: Listening on port 3000...
+2014-08-28T09:15:51.471Z - info: Its here!!!
+
+2014-08-28T09:16:34.681Z - info: Its here!!!
+
+2014-08-28T09:17:35.170Z - info: Its here!!!
+
+2014-08-28T11:50:04.816Z - info: Its here!!!
+
+2014-08-28T11:53:06.314Z - info: DB Connection  successfully done.
+2014-08-28T11:53:06.619Z - info: Listening on port 3000...
+2014-08-28T11:53:20.597Z - info: Its here!!!
+
+2014-08-28T11:54:49.943Z - info: Its here!!!
+
+2014-08-29T12:05:54.990Z - info: DB Connection  successfully done.
+2014-08-29T12:05:55.277Z - info: Listening on port 3000...
+2014-08-29T12:29:36.881Z - info: Count is 1
+2014-08-29T12:30:21.566Z - info: Count is 1
+2014-08-29T12:30:40.564Z - info: Count is 1
+2014-08-29T12:30:51.109Z - info: Count is 1
+2014-08-29T12:40:55.310Z - info: Count is 1
+2014-08-29T12:43:06.245Z - info: Count is 1
+2014-08-29T12:43:08.953Z - error:  message=Validation failed, name=ValidationError, message=Path `userName` is required., name=ValidatorError, path=userName, type=required, value=, message=Path `emailId` is required., name=ValidatorError, path=emailId, type=required, value=
+2014-08-29T12:44:31.869Z - info: Count is 1
+2014-08-29T12:48:51.835Z - info: DB Connection  successfully done.
+2014-08-29T12:48:52.115Z - info: Listening on port 3000...
+2014-08-29T12:48:59.008Z - info: Count is 1
+2014-08-29T12:49:18.538Z - info: Count is 1
+2014-08-29T12:59:56.219Z - info: Count is 1
+2014-08-29T13:13:35.491Z - info: emailid/password did not match
+2014-08-29T13:13:35.491Z - info:  success=false, msg=emailid/password did not match
+2014-08-29T13:14:21.082Z - info: DB Connection  successfully done.
+2014-08-29T13:14:21.368Z - info: Listening on port 3000...
+2014-08-29T13:14:28.269Z - info: emailid/password did not match
+2014-08-29T13:14:28.270Z - info:  success=false, msg=emailid/password did not match
+2014-08-29T13:14:54.400Z - info: emailid/password did not match
+2014-08-29T13:14:54.400Z - info:  success=false, msg=emailid/password did not match
+2014-08-29T13:15:28.403Z - info:  success=true, msg=aaa@lq.com
+2014-08-29T17:39:08.874Z - info:  success=true, msg=melik@lq.com
